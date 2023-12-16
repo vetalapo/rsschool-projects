@@ -69,7 +69,7 @@ header a {
     color: var(--text-dark);
 }
 
-header svg {
+header a.menu svg {
     position: relative;
     bottom: -2px;
 }
@@ -77,6 +77,10 @@ header svg {
 header nav a {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+header .hamburger-menu {
+    display: none;
 }
 
 /* Sections */
