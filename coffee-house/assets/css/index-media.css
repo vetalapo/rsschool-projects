@@ -28,3 +28,21 @@
         padding: 60px;
     }
 }
+
+@media only screen and (max-width: 380px) {
+    body {
+        max-width: 380px;
+    }
+
+    .page-section {
+        margin: 0 16px;
+    }
+
+    #social h2 {
+        font-size: 32px;
+    }
+
+    footer {
+        padding: 60px 16px;
+    }
+}

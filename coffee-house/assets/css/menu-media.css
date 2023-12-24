@@ -28,3 +28,14 @@
         margin-bottom: 100px;
     }
 }
+
+@media only screen and (max-width: 380px) {
+    .page-section .heading {
+        font-size: 32px;
+    }
+
+    section.product-selection {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+}
