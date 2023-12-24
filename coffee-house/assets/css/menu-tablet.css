@@ -1,0 +1,30 @@
+@media only screen and (max-width: 768px) {
+    .heading {
+        max-width: 685px;
+    }
+
+    #category-switch a {
+        margin: 0 8px;
+    }
+
+    section.product-selection {
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 40px;
+    }
+
+    .tile:nth-child(5), .tile:nth-child(6), .tile:nth-child(7), .tile:nth-child(8) {
+        display: none;
+    }
+
+    #fetch-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid var(--border-dark);
+        border-radius: 100px;
+        width: 60px;
+        height: 60px;
+        margin: auto;
+        margin-bottom: 100px;
+    }
+}

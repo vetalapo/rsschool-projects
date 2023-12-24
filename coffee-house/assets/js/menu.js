@@ -20,7 +20,7 @@ function menuSelection(event) {
     let path = event.target.href;
     
     // Add active class for current element
-    if (path) { 
+    if (path) {
         event.target.classList.add("active");
      } else {
         event.target.parentElement.classList.add("active");

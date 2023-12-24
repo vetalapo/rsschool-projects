@@ -126,6 +126,10 @@ section.product-selection {
     bottom: 20px;
 }
 
+#fetch-button {
+    display: none;
+}
+
 /* Fixed underline */
 .fixed-underline {
     position: relative;
