@@ -22,4 +22,9 @@
     header a.hamburger-menu svg {
         width: 16px;
     }
+
+    footer {
+        grid-template-columns: 1fr;
+        padding: 60px;
+    }
 }

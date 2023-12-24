@@ -35,4 +35,21 @@
     #mobile-apps {
         grid-template-columns: 1fr;
     }
+
+    #favorite-coffee {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    #about .gallery .gallery-item:nth-child(3), #about .gallery .gallery-item:last-child {
+        display: none;
+    }
+
+    #mobile-apps .mobile-apps-description {
+        margin-right: 40px;
+    }
+
+    #mobile-apps .mobile-screens-photo {
+        justify-self: center;
+    }
 }
