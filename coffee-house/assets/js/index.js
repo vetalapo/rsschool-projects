@@ -38,8 +38,27 @@ function slideLeft() {
     document.getElementById("slides").scrollLeft -= 1000;
 };
 
+function setBannerVideoSize() {
+    const screenWidth = screen.width;
+    const bannerVideo = document.getElementById("banner-video");
+
+    if (bannerVideo) {
+        if (screenWidth > 768) {
+            bannerVideo.src = "assets/video/coffee-pour-1080p.mp4";
+        } else if (screenWidth <= 768 && screenWidth > 380) {
+            bannerVideo.src = "assets/video/coffee-pour-720p.mp4";
+        } else if (screenWidth <= 380) {
+            bannerVideo.src = "assets/video/coffee-pour-360p.mp4";
+        }
+
+        bannerVideo.load();
+    }
+}
+
 // On Load
 (() => {
+    setBannerVideoSize();
+
     // Self evaluation
     console.info(`Coffee House, Week II\n\nSelf assessment:\n\t
         1. The layout of the pages matches the design at a screen width of 1440px: +14\n\t
@@ -52,3 +71,8 @@ function slideLeft() {
         8. The layout of both pages is valid: to check the validity of the layout, use the service https://validator.w3.org/ : +12\n\n\t
         Total: 90`);
 })();
+
+// On Window resize
+onresize = () => {
+    setBannerVideoSize();
+}

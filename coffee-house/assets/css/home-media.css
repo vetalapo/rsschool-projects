@@ -1,12 +1,10 @@
 @media only screen and (max-width: 768px) {
-    .responsive {
-        width: auto;
+    #banner .image-container video {
+        max-width: unset;
+        margin-left: -250px;
+        margin-top: -50px;
     }
 
-    #banner .image-container {
-        aspect-ratio: 1 / 0.9;
-    }
-    
     .over-text {
         max-width: 80%;
         top: 100px;
@@ -104,6 +102,12 @@
 @media only screen and (max-width: 380px) {
     #banner .image-container {
         height: 550px;
+    }
+
+    #banner .image-container video {
+        height: 100%;
+        margin-left: -300px;
+        margin-top: unset;
     }
 
     .over-text {

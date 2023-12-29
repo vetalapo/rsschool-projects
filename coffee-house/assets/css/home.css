@@ -1,24 +1,20 @@
-.responsive {
-    width: 100%;
-    height: auto;
-}
-
 #banner {
     position: relative;
 }
 
 #banner .image-container {
-    display: flex;
-    height: 644px;
+    max-height: 644px;
     width: 100%;
-    justify-content: center;
     border-radius: 40px;
     overflow: hidden;
 }
 
-#banner .image-container img {
+#banner .image-container video {
+    max-width: 100%;
     margin-top: -28px;
     margin-bottom: -28px;
+    pointer-events: none;
+    user-select: none;
 }
 
 .over-text {
