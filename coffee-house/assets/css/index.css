@@ -73,11 +73,11 @@ header a {
     color: var(--text-dark);
 }
 
-header a.menu {
+#navigation-menu {
     margin-top: -7px;
 }
 
-header a.menu svg {
+#navigation-menu svg {
     position: relative;
     margin-left: 4px;
     bottom: -2px;
@@ -92,7 +92,7 @@ header nav a {
     margin-right: 20px;
 }
 
-header .hamburger-menu {
+#hamburger-menu, #hamburger-menu-close {
     display: none;
 }
 
@@ -244,4 +244,8 @@ address {
 
 .invert-color:hover {
     background-color: var(--background-body);
+}
+
+.no-scroll {
+    overflow-y: hidden;
 }

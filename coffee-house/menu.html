@@ -25,13 +25,13 @@
             <a href="index.html">
                 <img id="logo" src="assets/resources/logo.png" alt="Logo of the Coffee House, which says Resource, below is the name of the company">
             </a>
-            <nav>
-                <a class="no-cursor underline" href="#favorite-coffee">Favorite coffee</a>
-                <a class="no-cursor underline" href="#about">About</a>
-                <a class="no-cursor underline" href="#mobile-apps">Mobile app</a>
-                <a class="no-cursor underline" href="#contacts">Contact us</a>
+            <nav id="navigation-options">
+                <a class="no-cursor underline" onclick="toggleHamburgerMenu()" href="index.html#favorite-coffee">Favorite coffee</a>
+                <a class="no-cursor underline" onclick="toggleHamburgerMenu()" href="index.html#about">About</a>
+                <a class="no-cursor underline" onclick="toggleHamburgerMenu()" href="index.html#mobile-apps">Mobile app</a>
+                <a class="no-cursor underline" onclick="toggleHamburgerMenu()" href="#contacts">Contact us</a>
             </nav>
-            <a class="menu fixed-underline no-cursor" href="menu.html">Menu
+            <a id="navigation-menu" class="menu fixed-underline no-cursor" href="menu.html">Menu
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path d="M14.167 9.76667V11.6667C14.167 14.8883 11.5553 17.5 8.33366 17.5C5.112 17.5 2.50033 14.8883 2.50033 11.6667V9.76667C2.50033 9.4353 2.76896 9.16667 3.10033 9.16667H13.567C13.8984 9.16667 14.167 9.4353 14.167 9.76667Z" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.0003 7.50008C10.0003 6.66675 10.5956 5.83341 11.786 5.83341V5.83341C13.101 5.83341 14.167 4.76743 14.167 3.45246V2.91675" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -39,12 +39,20 @@
                     <path d="M13.333 9.16675H15.4163C16.5669 9.16675 17.4997 10.0995 17.4997 11.2501C17.4997 12.4007 16.5669 13.3334 15.4163 13.3334H14.1663" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
-            <a class="hamburger-menu" href="#">
-                <svg class="apprer-line" xmlns="http://www.w3.org/2000/svg" width="18" height="2" viewBox="0 0 18 2" fill="none">
+            <a id="hamburger-menu" href="#" onclick="toggleHamburgerMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="2" viewBox="0 0 18 2" fill="none">
                     <path d="M1 1H17" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <svg class="lover-line" xmlns="http://www.w3.org/2000/svg" width="18" height="2" viewBox="0 0 18 2" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="2" viewBox="0 0 18 2" fill="none">
                     <path d="M1 1H17" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a id="hamburger-menu-close" href="#" onclick="toggleHamburgerMenu()">
+                <svg class="left-line" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1.34314 1.34326L12.6568 12.657" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <svg class="right-line" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1.34314 12.657L12.6568 1.34327" stroke="#403F3D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
         </header>
@@ -337,5 +345,6 @@
             </section>
         </footer>
         <script src="assets/js/menu.js"></script>
+        <script src="assets/js/common.js"></script>
     </body>
 </html>
