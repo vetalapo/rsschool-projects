@@ -16,7 +16,7 @@
         margin-bottom: 40px;
     }
 
-    .tile:first-child, .tile:nth-child(3) {
+    .tile:first-child, .tile:nth-child(3), .tile:nth-child(5), .tile:nth-child(7) {
         margin-left: 13px;
     }
 
@@ -47,7 +47,7 @@
         margin: 0 4px;
     }
 
-    .tile:first-child, .tile:nth-child(3) {
+    .tile:first-child, .tile:nth-child(3), .tile:nth-child(5), .tile:nth-child(7) {
         margin-left: 0;
     }
 

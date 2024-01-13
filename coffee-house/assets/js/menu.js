@@ -1,5 +1,7 @@
 "use strict";
 
+let currentSectionId = "coffee-menu";
+
 function menuSelection(event) {
     event.preventDefault();
 
@@ -28,14 +30,36 @@ function menuSelection(event) {
      }
     
     // Switching slides
-    const targetSectionId = path.split('#')[1];
+    currentSectionId = path.split('#')[1];
     const sections = document.getElementsByClassName("product-selection");
 
     for (let section of sections) {
         section.classList.add("no-display");
     }
 
-    document.getElementById(targetSectionId).classList.remove("no-display");
+    const currentSection = document.getElementById(currentSectionId);
+
+    currentSection.classList.remove("no-display");
+
+    // Remove load button if there's 4 or less products
+    // or if every element in section is already displayed
+    if (currentSection.children.length <= 4 || [...currentSection.children].every(element => element.checkVisibility())) {
+        document.getElementById("fetch-button").style.display = "none";
+    } else {
+        document.getElementById("fetch-button").style.display = "flex";
+    }
+}
+
+function fetchCategoryProducts() {
+    // Display hidden products for current category
+    const currentSectionChildren = document.getElementById(currentSectionId).children;
+
+    [...currentSectionChildren]
+        .filter(element => !element.checkVisibility())
+        .forEach(element => element.style.display = "block");
+
+    // Hide button
+    document.getElementById("fetch-button").style.display = "none";
 }
 
 // On Load
