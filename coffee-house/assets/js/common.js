@@ -5,35 +5,47 @@ function toggleHamburgerButton() {
     const hamburgerButton = document.getElementById("hamburger-menu");
     const hamburgerCloseButton = document.getElementById("hamburger-menu-close");
     
-    if (hamburgerButton.style.display === "none") {
-        hamburgerButton.style.display = "flex";
-        hamburgerCloseButton.style.display = "none";
+    if (hamburgerButton.classList.contains("burger-menu-fade")) {
+        hamburgerButton.classList.remove("burger-menu-fade");
+        hamburgerButton.classList.add("burger-menu-expand");
+
+        hamburgerCloseButton.classList.remove("burger-menu-expand");
+        hamburgerCloseButton.classList.add("burger-menu-fade");
     } else {
-        hamburgerButton.style.display = "none";
-        hamburgerCloseButton.style.display = "flex";
+        hamburgerButton.classList.remove("burger-menu-expand");
+        hamburgerButton.classList.add("burger-menu-fade");
+
+        hamburgerCloseButton.classList.remove("burger-menu-fade");
+        hamburgerCloseButton.classList.add("burger-menu-expand");
     }
 }
 
 function toggleMenu() {
     const navigationOptions = document.getElementById("navigation-options");
     const menuNav = document.getElementById("navigation-menu");
+    
+    menuNav.classList.remove("fixed-underline");
 
-    if(navigationOptions.classList.contains("full-screen-hamburger-menu")) {
-        // Hide
-        navigationOptions.classList.remove("full-screen-hamburger-menu");
+    if(navigationOptions.classList.contains("full-screen-hamburger-menu-expanded")) {
+        // Hide menu
+        navigationOptions.classList.remove("full-screen-hamburger-menu-expanded");
+        navigationOptions.classList.add("full-screen-hamburger-menu-collapsed");
+
         document.body.classList.remove("no-scroll");
         
         // menu nav element
-        menuNav.classList.add("fixed-underline");
-        menuNav.style.display = "none";
+        menuNav.classList.remove("full-screen-hamburger-menu-expanded");
+        menuNav.classList.add("full-screen-hamburger-menu-collapsed");
     } else {
-        // Show
-        navigationOptions.classList.add("full-screen-hamburger-menu");
+        // Show menu
+        navigationOptions.classList.remove("full-screen-hamburger-menu-collapsed");
+        navigationOptions.classList.add("full-screen-hamburger-menu-expanded");
+
         document.body.classList.add("no-scroll")
 
         // menu nav element
-        menuNav.classList.remove("fixed-underline");
-        menuNav.style.display = "flex";
+        menuNav.classList.remove("full-screen-hamburger-menu-collapsed");
+        menuNav.classList.add("full-screen-hamburger-menu-expanded");
     }
 }
 

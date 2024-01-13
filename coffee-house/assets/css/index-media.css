@@ -27,16 +27,33 @@
         padding-top: 80px;
         overflow: hidden;
         font-size: 32px;
+        transform: translate(100%, 0);
+    }
+
+    .full-screen-hamburger-menu-expanded {
+        animation-name: menu-expanded-animation;
+        animation-duration: 0.35s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+    }
+
+    .full-screen-hamburger-menu-collapsed {
+        animation-name: menu-collapsed-animation;
+        animation-duration: 0.35s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
     }
 
     #navigation-menu {
         position: fixed;
         display: flex;
-        bottom: 203px;
+        width: 100%;
+        margin-left: -40px;
+        justify-content: center;
+        bottom: 224px;
         align-items: end;
         font-size: 32px;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(100%, 0);
         z-index: 1;
     }
 
@@ -59,16 +76,39 @@
         border-radius: 50%;
     }
 
+    #hamburger-menu {
+        position: absolute;
+    }
+
+    .hamburger-menu-display {
+        opacity: 1;
+    }
+
+    .burger-menu-expand {
+        animation-name: burger-menu-fade-in-animation;
+        animation-duration: 0.2s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+    }
+
+    .burger-menu-fade {
+        animation-name: burger-menu-fade-out-animation;
+        animation-duration: 0.2s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+    }
+
     #hamburger-menu svg, #hamburger-menu-close svg {
         width: 18px;
     }
 
-    #hamburger-menu-close, header nav, #navigation-menu {
-        display: none;
-    }
-
     #hamburger-menu-close {
         gap: 0;
+        opacity: 0;
+    }
+
+    .hamburger-menu-close-display {
+        opacity: 1;
     }
 
     #hamburger-menu-close .right-line {
@@ -108,6 +148,10 @@
         max-width: 380px;
     }
 
+    #navigation-menu {
+        margin-left: -16px;
+    }
+
     .page-section {
         margin: 0 16px;
     }
@@ -132,4 +176,25 @@
         margin-top: -17px;
         margin-bottom: -14px;
     }
+}
+
+/* Menu animations */
+@keyframes menu-expanded-animation {
+    from { transform: translate(100%, 0); }
+    to { transform: translate(0, 0); }
+}
+
+@keyframes menu-collapsed-animation {
+    from { transform: translate(0, 0); }
+    to { transform: translate(100%, 0); }
+}
+
+@keyframes burger-menu-fade-in-animation {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes burger-menu-fade-out-animation {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
