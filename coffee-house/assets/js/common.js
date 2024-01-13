@@ -60,5 +60,12 @@ function toggleHamburgerMenu() {
 
 // On load
 (() => {
-    // TODO: Move common functions which should be firing on load for both home and menu pages
+    // Self evaluation
+    console.info(`Coffee House, Week III\n\nSelf assessment:\n\t
+        1. Implementation of the burger menu on both pages: +22\n\t
+        2. Implementation of the carousel on the home page: +0\n\t
+        3. Categories of products on the menu page:         +0\n\t
+        4. The Modal on the menu page:                      +0\n\t
+        5. Video on the home page:                          +8\n\n\t
+        Total: 30/90`);
 })();
