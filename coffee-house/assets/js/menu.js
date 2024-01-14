@@ -62,7 +62,69 @@ function fetchCategoryProducts() {
     document.getElementById("fetch-button").style.display = "none";
 }
 
+function displayProductModal(tileTitle, imageSrc) {
+    console.log(`title: [${tileTitle}]\nsrc: [${imageSrc}]`);
+    
+    // No scroll body
+    document.body.classList.add("no-scroll");
+
+    // Set modal properties
+    document.getElementById("modal-image").src = imageSrc;
+    document.getElementById("modal-header").innerText = tileTitle;
+
+    // Show modal
+    const modal = document.getElementById("product-modal");
+    modal.style.display = "flex";
+}
+
+function findTile(element) {
+    if (element.classList.contains("tile")) {
+        return element;
+    }
+
+    return findTile(element.parentElement);
+}
+
+function findTileTitle(tile) {
+    const textChildren = [...tile.children]
+        .filter(el => el.classList.contains("text"))[0]
+        .children;
+
+    return [...textChildren]
+        .filter(el => el.nodeName === "H2")[0]
+        .innerText;
+}
+
+function findTileImageSrc(tile) {
+    return [...tile.children]
+        .filter(el => el.classList.contains("image-container"))[0]
+        .children[0]
+        .src;
+}
+
+function tileDispatch(event) {
+    const element = event.target;
+    const tile = findTile(element);
+    const title = findTileTitle(tile);
+    const imageSrc = findTileImageSrc(tile);
+
+    displayProductModal(title, imageSrc);
+}
+
 // On Load
 (() => {
-    // TODO: Add what needs to run on load for menu page
+    // Getting all tiles, and assigning them onclick event
+    const tiles = document.getElementsByClassName("tile");
+
+    [...tiles].forEach(element => element.addEventListener("click", tileDispatch));
 })();
+
+// Product modal click off
+window.onclick = function(event) {
+    const modal = document.getElementById("product-modal");
+
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.body.classList.remove("no-scroll");
+    }
+}
