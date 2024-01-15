@@ -65,7 +65,7 @@ function toggleHamburgerMenu() {
         1. Implementation of the burger menu on both pages: +22\n\t
         2. Implementation of the carousel on the home page: +0\n\t
         3. Categories of products on the menu page:         +16\n\t
-        4. The Modal on the menu page:                      +0\n\t
+        4. The Modal on the menu page:                      +20\n\t
         5. Video on the home page:                          +8\n\n\t
-        Total: 46/90`);
+        Total: 66/90`);
 })();

@@ -35,6 +35,16 @@
         margin: auto;
         margin-bottom: 100px;
     }
+
+    /* Products modal */
+    .modal-content {
+        width: 688px;
+        margin-top: 164px;
+    }
+
+    .modal-description-wrapper {
+        margin-left: 2px;
+    }
 }
 
 @media only screen and (max-width: 380px) {
@@ -54,5 +64,16 @@
     section.product-selection {
         grid-template-columns: 1fr;
         justify-items: center;
+    }
+
+    /* Products modal */
+    .modal-image-wrapper {
+        display: none;
+    }
+
+    .modal-content {
+        width: 342px;
+        grid-template-columns: 1fr;
+        margin-top: -32px;
     }
 }
