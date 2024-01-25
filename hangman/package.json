@@ -1,0 +1,13 @@
+{
+    "name": "hangman",
+    "version": "0.0.1",
+    "description": "Hangman game in pure js, html, and css. No frameworks used.",
+    "author": "Vitaly Dushkin",
+    "license": "MIT",
+    "scripts": {
+        "start": "lite-server"
+    },
+    "devDependencies": {
+        "lite-server": "2.6.1"
+    }
+}
