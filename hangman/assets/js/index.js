@@ -33,6 +33,10 @@ class Gallows {
         this.pictureId = "hangman-state";
         this.state = 0;
 
+        this.init(container);
+    }
+
+    init(container) {
         const image = document.createElement("img");
         image.id = this.pictureId;
         image.src = "assets/image/state/0.png";
