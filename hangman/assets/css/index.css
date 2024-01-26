@@ -39,17 +39,27 @@ body {
 
 #gallows-container {
     display: flex;
+    flex-direction: column;
+    gap: 30px;
     justify-content: center;
     align-items: center;
     background-color: lightcoral;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
+    pointer-events: none;
+    user-select: none;
 }
 
 #quiz-container {
     background-color: green;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
+}
+
+.game-title {
+    text-transform: uppercase;
+    font-family: "Moirai One", Papyrus, Math;
+    font-size: 65px;
 }
 
 ul {

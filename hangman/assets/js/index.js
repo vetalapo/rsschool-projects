@@ -2,11 +2,12 @@
 
 class Hangman {
     constructor() {
+        this.gameTitle = "Hangman Game";
         this.gallows = null;
-        this.renderMainContainer();
+        this.initMainContainerAndComponents();
     }
 
-    renderMainContainer() {
+    initMainContainerAndComponents() {
         // Game container
         const container = document.createElement("div");
         container.classList.add("hangman-game-container");
@@ -14,22 +15,24 @@ class Hangman {
         // Gallows container
         const gallowsContainer = document.createElement("div");
         gallowsContainer.id = "gallows-container";
-        this.gallows = new Gallows(gallowsContainer);
+        this.gallows = new Gallows(this.gameTitle, gallowsContainer);
 
         // Quiz container
         const quiz = document.createElement("div");
         quiz.id = "quiz-container";
 
+        // Appending children to the main container
         container.appendChild(gallowsContainer);
         container.appendChild(quiz);
 
-        // Rendering containers
+        // Rendering containers to the document
         document.body.appendChild(container);
     }
 }
 
 class Gallows {
-    constructor(container) {
+    constructor(title, container) {
+        this.title = title;
         this.pictureId = "hangman-state";
         this.state = 0;
 
@@ -37,12 +40,20 @@ class Gallows {
     }
 
     init(container) {
+        // Image
         const image = document.createElement("img");
         image.id = this.pictureId;
         image.src = "assets/image/state/0.png";
         image.alt = "Hangman slide state picture"
 
+        // Game title
+        const title = document.createElement("h1");
+        title.classList.add("game-title");
+        title.textContent = this.title;
+
+        // Appending children to the container
         container.appendChild(image);
+        container.appendChild(title);
     }
 
     setState(state) {
