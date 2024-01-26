@@ -1,0 +1,59 @@
+:root {
+    --background-body: #5455ac;
+    --background-container: #fff;
+    --text-dark: #000;
+}
+
+*,
+*::before
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-body);
+    color: var(--text-dark);
+}
+
+body {
+    display: flex;
+    margin: 30px;
+    width: auto;
+    height: auto;
+    background-color: var(--background-container);
+    border-radius: 25px;
+}
+
+.hangman-game-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 100%;
+    overflow: hidden;
+}
+
+#gallows-container {
+    background-color: lightcoral;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+#quiz-container {
+    background-color: green;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
