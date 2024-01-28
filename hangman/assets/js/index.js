@@ -7,6 +7,13 @@ class Hangman {
         this.printer = null;
         this.keyboard = null;
 
+        this.inputLettersSet = 
+            new Set([
+                  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                  'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                  's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+                ]);
+
         this.initMainContainerAndComponents();
     }
 
@@ -25,7 +32,7 @@ class Hangman {
         quizContainer.id = "quiz-container";
 
         this.printer = new Printer(quizContainer);
-        this.keyboard = new Keyboard(quizContainer);
+        this.keyboard = new Keyboard(quizContainer, this.handleKeyboardEvents.bind(this));
 
         // Appending children to the main container
         container.appendChild(gallowsContainer);
@@ -33,6 +40,20 @@ class Hangman {
 
         // Rendering containers to the document
         document.body.appendChild(container);
+    }
+
+    handleKeyboardEvents(event) {
+        if (event.type === "keyup") {
+            if (this.inputLettersSet.has(event.key)) {
+                this.processInput(event.key);
+            }
+        } else if (event.type === "click") {
+            this.processInput(event.target.innerText.toLowerCase());
+        }
+    }
+
+    processInput(key) {
+        console.log(key);
     }
 }
 
@@ -108,7 +129,7 @@ class Printer {
 
     init(container) {
         // Code word
-        const codeWordContainer = document.createElement("div");
+        const codeWordContainer = document.createElement("section");
         codeWordContainer.classList.add("code-word-container");
         
         const codeWordElement = document.createElement("p");
@@ -117,15 +138,15 @@ class Printer {
         codeWordContainer.appendChild(codeWordElement);
 
         // Hint
-        const hintContainer = document.createElement("div");
+        const hintContainer = document.createElement("section");
         hintContainer.classList.add("hint-container");
         const hintElement = document.createElement("p");
         hintElement.id = "hint";
         hintElement.textContent = this.formatHint(this.hint);
-        codeWordContainer.appendChild(hintElement);
+        hintContainer.appendChild(hintElement);
         
         // Lives
-        const livesStatusContainer = document.createElement("div");
+        const livesStatusContainer = document.createElement("section");
         livesStatusContainer.classList.add("lives-status-container");
         
         const livesElement = document.createElement("p");
@@ -151,18 +172,76 @@ class Printer {
     formatScore(score) {
         return `${6 - score} / 6`;
     }
+
+    cycleState() {
+        this.lives--;
+
+        if (this.lives > 6) {
+            this.lives = 6;
+        }
+
+        if (this.lives < 0) {
+            this.lives = 0;
+        }
+
+        const score = document.getElementById("game-score");
+        score.textContent = this.formatScore(this.lives);
+    }
 }
 
 class Keyboard {
-    constructor(container) {
-        this.init(container);
+    constructor(container, callback) {
+        this.keys = "abcdefghijklmnopqrstuvwxyz";
+
+        this.init(container, callback);
     }
 
-    init(container) {
-        const keyboardContainer = document.createElement("div");
+    init(container, callback) {
+        const keyboardContainer = document.createElement("section");
         keyboardContainer.classList.add("keyboard-container");
 
         container.appendChild(keyboardContainer);
+        this.generateButtonsAndAddEventListeners(keyboardContainer, this.keys, callback);
+    }
+
+    generateButtonsAndAddEventListeners(container, keys, callback) {
+        // Create 3 rows for the keyboard
+        const row = document.createElement("div");
+        row.classList.add("keys-row");
+
+        const row2 = document.createElement("div");
+        row2.classList.add("keys-row");
+
+        const row3 = document.createElement("div");
+        row3.classList.add("keys-row");
+
+        // Add buttons for each row
+        for (let i = 0; i < keys.length; i++) {
+            const key = document.createElement("button");
+
+            key.id = `${keys[i]}-key`;
+            key.classList.add("key-button");
+            key.innerText = keys[i];
+            key.addEventListener("click", callback);
+
+            const rowIndex = Math.trunc(i / 9);
+
+            if (rowIndex === 0) {
+                row.appendChild(key);
+            } else if (rowIndex === 1) {
+                row2.appendChild(key);
+            } else {
+                row3.appendChild(key);
+            }
+        }
+
+        // Add rows
+        container.appendChild(row);
+        container.appendChild(row2);
+        container.appendChild(row3);
+
+        // Physical keyboard event listener
+        document.addEventListener("keyup", callback);
     }
 }
 

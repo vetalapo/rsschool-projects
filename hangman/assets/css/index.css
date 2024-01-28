@@ -51,7 +51,13 @@ body {
 }
 
 #quiz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: green;
+    font-size: 40px;
+    font-weight: 500;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
 }
@@ -62,11 +68,27 @@ body {
     font-size: 65px;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
+#code-word {
+    font-size: 65px;
+    letter-spacing: 30px;
 }
 
-a {
-    text-decoration: none;
+.keyboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.keys-row {
+    display: flex;
+    gap: 15px;
+}
+
+.key-button {
+    width: 60px;
+    height: 60px;
+    text-transform: uppercase;
+    background-color: var(--background-body);
+    border-radius: 20px;
 }
