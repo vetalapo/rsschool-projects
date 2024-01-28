@@ -4,6 +4,9 @@ class Hangman {
     constructor() {
         this.gameTitle = "Hangman Game";
         this.gallows = null;
+        this.printer = null;
+        this.keyboard = null;
+
         this.initMainContainerAndComponents();
     }
 
@@ -18,12 +21,15 @@ class Hangman {
         this.gallows = new Gallows(this.gameTitle, gallowsContainer);
 
         // Quiz container
-        const quiz = document.createElement("div");
-        quiz.id = "quiz-container";
+        const quizContainer = document.createElement("div");
+        quizContainer.id = "quiz-container";
+
+        this.printer = new Printer(quizContainer);
+        this.keyboard = new Keyboard(quizContainer);
 
         // Appending children to the main container
         container.appendChild(gallowsContainer);
-        container.appendChild(quiz);
+        container.appendChild(quizContainer);
 
         // Rendering containers to the document
         document.body.appendChild(container);
@@ -88,6 +94,75 @@ class Gallows {
     gameWin() {
         this.state = "win";
         this.setState(this.state);
+    }
+}
+
+class Printer {
+    constructor(container) {
+        this.lives = 6;
+        this.codeWord = "_a___a__";
+        this.hint = "Test hint for the riddle.";
+        
+        this.init(container);
+    }
+
+    init(container) {
+        // Code word
+        const codeWordContainer = document.createElement("div");
+        codeWordContainer.classList.add("code-word-container");
+        
+        const codeWordElement = document.createElement("p");
+        codeWordElement.id = "code-word";
+        codeWordElement.textContent = this.codeWord;
+        codeWordContainer.appendChild(codeWordElement);
+
+        // Hint
+        const hintContainer = document.createElement("div");
+        hintContainer.classList.add("hint-container");
+        const hintElement = document.createElement("p");
+        hintElement.id = "hint";
+        hintElement.textContent = this.formatHint(this.hint);
+        codeWordContainer.appendChild(hintElement);
+        
+        // Lives
+        const livesStatusContainer = document.createElement("div");
+        livesStatusContainer.classList.add("lives-status-container");
+        
+        const livesElement = document.createElement("p");
+        livesElement.textContent = "Incorrect guesses: ";
+        
+        const score = document.createElement("span");
+        score.id = "game-score";
+        score.innerText = this.formatScore(this.lives);
+
+        livesElement.appendChild(score);
+        livesStatusContainer.appendChild(livesElement);
+
+        // Containers all together
+        container.appendChild(codeWordContainer);
+        container.appendChild(hintContainer);
+        container.appendChild(livesStatusContainer);
+    }
+
+    formatHint(hint) {
+        return `Hint: ${hint}`;
+    }
+
+    formatScore(score) {
+        return `${6 - score} / 6`;
+    }
+}
+
+class Keyboard {
+    constructor(container) {
+        this.init(container);
+    }
+
+    init(container) {
+        const keyboardContainer = document.createElement("div");
+        keyboardContainer.classList.add("keyboard-container");
+
+        container.appendChild(keyboardContainer);
     }
 }
 
