@@ -68,6 +68,11 @@ body {
     font-size: 65px;
 }
 
+#game-score {
+    color: maroon;
+    font-weight: 600;
+}
+
 #code-word {
     font-size: 65px;
     letter-spacing: 30px;

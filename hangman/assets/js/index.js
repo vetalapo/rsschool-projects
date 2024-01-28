@@ -3,9 +3,15 @@
 class Hangman {
     constructor() {
         this.gameTitle = "Hangman Game";
+
         this.gallows = null;
         this.printer = null;
         this.keyboard = null;
+
+        // Game vars
+        this.answerSet = new Set();
+        this.answerPlain = "";
+        //
 
         this.inputLettersSet = 
             new Set([
@@ -14,7 +20,42 @@ class Hangman {
                   's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
                 ]);
 
+        this.hangmanWords = [
+            { lang: "python", hint: "What if everything was a dict?" },
+            { lang: "java", hint: "What if everything was an object?" },
+            { lang: "javascript", hint: "What if everything was a dict *and* an object?" },
+            { lang: "clanguage", hint: "What if everything was a pointer?" },
+            { lang: "apl", hint: "What if everything was an array?" },
+            { lang: "tickle", hint: "What if everything was a string?" },
+            { lang: "prolog", hint: "What if everything was a term?" },
+            { lang: "lisp", hint: "What if everything was a pair?" },
+            { lang: "scheme", hint: "What if everything was a function?" },
+            { lang: "haskell", hint: "What if everything was a monad?" },
+            { lang: "assembly", hint: "What if everything was a register?" },
+            { lang: "coq", hint: "What if everything was a type/proposition?" },
+            { lang: "cobol", hint: "WHAT IF EVERYTHING WAS UPPERCASE?" },
+            { lang: "csharp", hint: "What if everything was like Java, but different?" },
+            { lang: "ruby", hint: "What if everything was monkey patched?" },
+            { lang: "pascal", hint: "BEGIN What if everything was structured? END" },
+            { lang: "cplusplus", hint: "What if we added everything to the language?" },
+            { lang: "rust", hint: "What if garbage collection didn't exist?" },
+            { lang: "golang", hint: "What if we tried designing C a second time?" },
+            { lang: "perl", hint: "What if shell, sed, and awk were one language?" },
+            { lang: "php", hint: "What if we wanted to make SQL injection easier?" },
+            { lang: "visualbasic", hint: "What if we wanted to allow anyone to program?" },
+            { lang: "forth", hint: "What if everything was a stack?" },
+            { lang: "colorforth", hint: "What if the stack was green?" },
+            { lang: "postscript", hint: "What if everything was printed at 600dpi?" },
+            { lang: "xslt", hint: "What if everything was an XML element?" },
+            { lang: "scala", hint: "What if Haskell ran on the JVM?" },
+            { lang: "clojure", hint: "What if LISP ran on the JVM?" },
+            { lang: "lua", hint: "What if game developers got tired of C++?" },
+            { lang: "mathematica", hint: "What if Stephen Wolfram invented everything?" },
+            { lang: "malbolge", hint: "What if there is no god?" }
+        ];
+
         this.initMainContainerAndComponents();
+        this.resetGame();
     }
 
     initMainContainerAndComponents() {
@@ -54,6 +95,25 @@ class Hangman {
 
     processInput(key) {
         console.log(key);
+    }
+
+    resetGame() {
+        const randomIndex = Math.floor(Math.random() * (this.hangmanWords.length - 1));
+        const randomQuiz = this.hangmanWords[randomIndex];
+
+        // Set answer
+        this.answerPlain = randomQuiz.lang;
+        this.answerSet = new Set(randomQuiz.lang);
+
+        // Gallows
+        this.gallows.gameReset();
+
+        // Printer
+        this.printer.cycleReset();
+        this.printer.setHint(randomQuiz.hint);
+        this.printer.setCodeWord('_'.repeat(randomQuiz.lang.length));
+
+        // Keyboard
     }
 }
 
@@ -121,8 +181,8 @@ class Gallows {
 class Printer {
     constructor(container) {
         this.lives = 6;
-        this.codeWord = "_a___a__";
-        this.hint = "Test hint for the riddle.";
+        this.codeWord = "";
+        this.hint = "";
         
         this.init(container);
     }
@@ -186,6 +246,20 @@ class Printer {
 
         const score = document.getElementById("game-score");
         score.textContent = this.formatScore(this.lives);
+    }
+
+    cycleReset() {
+        this.lives = 6;
+        const score = document.getElementById("game-score");
+        score.textContent = this.formatScore(this.lives);
+    }
+
+    setHint(hint) {
+        document.getElementById("hint").textContent = this.formatHint(hint);
+    }
+
+    setCodeWord(wordPartial) {
+        document.getElementById("code-word").textContent = wordPartial; 
     }
 }
 
