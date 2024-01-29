@@ -97,3 +97,8 @@ body {
     background-color: var(--background-body);
     border-radius: 20px;
 }
+
+.key-button-disabled {
+    background-color: teal;
+    border: none;
+}

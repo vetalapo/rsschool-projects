@@ -4,63 +4,62 @@ class Hangman {
     constructor() {
         this.gameTitle = "Hangman Game";
 
+        // Components
         this.gallows = null;
         this.printer = null;
         this.keyboard = null;
 
         // Game vars
+        this.lives = 6;
+        this.correctGuesses = 0;
+        this.processingBlock = false;
         this.answerSet = new Set();
         this.answerPlain = "";
-        //
-
-        this.inputLettersSet = 
-            new Set([
-                  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                  'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                  's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-                ]);
+        this.answerMasked = "";
 
         this.hangmanWords = [
-            { lang: "python", hint: "What if everything was a dict?" },
-            { lang: "java", hint: "What if everything was an object?" },
-            { lang: "javascript", hint: "What if everything was a dict *and* an object?" },
-            { lang: "clanguage", hint: "What if everything was a pointer?" },
-            { lang: "apl", hint: "What if everything was an array?" },
-            { lang: "tickle", hint: "What if everything was a string?" },
-            { lang: "prolog", hint: "What if everything was a term?" },
-            { lang: "lisp", hint: "What if everything was a pair?" },
-            { lang: "scheme", hint: "What if everything was a function?" },
-            { lang: "haskell", hint: "What if everything was a monad?" },
-            { lang: "assembly", hint: "What if everything was a register?" },
-            { lang: "coq", hint: "What if everything was a type/proposition?" },
-            { lang: "cobol", hint: "WHAT IF EVERYTHING WAS UPPERCASE?" },
-            { lang: "csharp", hint: "What if everything was like Java, but different?" },
-            { lang: "ruby", hint: "What if everything was monkey patched?" },
-            { lang: "pascal", hint: "BEGIN What if everything was structured? END" },
-            { lang: "cplusplus", hint: "What if we added everything to the language?" },
-            { lang: "rust", hint: "What if garbage collection didn't exist?" },
-            { lang: "golang", hint: "What if we tried designing C a second time?" },
-            { lang: "perl", hint: "What if shell, sed, and awk were one language?" },
-            { lang: "php", hint: "What if we wanted to make SQL injection easier?" },
-            { lang: "visualbasic", hint: "What if we wanted to allow anyone to program?" },
-            { lang: "forth", hint: "What if everything was a stack?" },
-            { lang: "colorforth", hint: "What if the stack was green?" },
-            { lang: "postscript", hint: "What if everything was printed at 600dpi?" },
-            { lang: "xslt", hint: "What if everything was an XML element?" },
-            { lang: "scala", hint: "What if Haskell ran on the JVM?" },
-            { lang: "clojure", hint: "What if LISP ran on the JVM?" },
-            { lang: "lua", hint: "What if game developers got tired of C++?" },
-            { lang: "mathematica", hint: "What if Stephen Wolfram invented everything?" },
-            { lang: "malbolge", hint: "What if there is no god?" }
+            { keyword: "python", hint: "What if everything was a dict?" },
+            { keyword: "java", hint: "What if everything was an object?" },
+            { keyword: "javascript", hint: "What if everything was a dict *and* an object?" },
+            { keyword: "clanguage", hint: "What if everything was a pointer?" },
+            { keyword: "apl", hint: "What if everything was an array?" },
+            { keyword: "tickle", hint: "What if everything was a string?" },
+            { keyword: "prolog", hint: "What if everything was a term?" },
+            { keyword: "lisp", hint: "What if everything was a pair?" },
+            { keyword: "scheme", hint: "What if everything was a function?" },
+            { keyword: "haskell", hint: "What if everything was a monad?" },
+            { keyword: "assembly", hint: "What if everything was a register?" },
+            { keyword: "coq", hint: "What if everything was a type/proposition?" },
+            { keyword: "cobol", hint: "WHAT IF EVERYTHING WAS UPPERCASE?" },
+            { keyword: "csharp", hint: "What if everything was like Java, but different?" },
+            { keyword: "ruby", hint: "What if everything was monkey patched?" },
+            { keyword: "pascal", hint: "BEGIN What if everything was structured? END" },
+            { keyword: "cplusplus", hint: "What if we added everything to the language?" },
+            { keyword: "rust", hint: "What if garbage collection didn't exist?" },
+            { keyword: "golang", hint: "What if we tried designing C a second time?" },
+            { keyword: "perl", hint: "What if shell, sed, and awk were one language?" },
+            { keyword: "php", hint: "What if we wanted to make SQL injection easier?" },
+            { keyword: "visualbasic", hint: "What if we wanted to allow anyone to program?" },
+            { keyword: "forth", hint: "What if everything was a stack?" },
+            { keyword: "colorforth", hint: "What if the stack was green?" },
+            { keyword: "postscript", hint: "What if everything was printed at 600dpi?" },
+            { keyword: "xslt", hint: "What if everything was an XML element?" },
+            { keyword: "scala", hint: "What if Haskell ran on the JVM?" },
+            { keyword: "clojure", hint: "What if LISP ran on the JVM?" },
+            { keyword: "lua", hint: "What if game developers got tired of C++?" },
+            { keyword: "mathematica", hint: "What if Stephen Wolfram invented everything?" },
+            { keyword: "malbolge", hint: "What if there is no god?" }
         ];
+    }
 
+    start() {
         this.initMainContainerAndComponents();
         this.resetGame();
     }
 
     initMainContainerAndComponents() {
         // Game container
-        const container = document.createElement("div");
+        const container = document.createElement("main");
         container.classList.add("hangman-game-container");
 
         // Gallows container
@@ -73,7 +72,7 @@ class Hangman {
         quizContainer.id = "quiz-container";
 
         this.printer = new Printer(quizContainer);
-        this.keyboard = new Keyboard(quizContainer, this.handleKeyboardEvents.bind(this));
+        this.keyboard = new Keyboard(quizContainer, this.processInput.bind(this));
 
         // Appending children to the main container
         container.appendChild(gallowsContainer);
@@ -83,27 +82,80 @@ class Hangman {
         document.body.appendChild(container);
     }
 
-    handleKeyboardEvents(event) {
-        if (event.type === "keyup") {
-            if (this.inputLettersSet.has(event.key)) {
-                this.processInput(event.key);
-            }
-        } else if (event.type === "click") {
-            this.processInput(event.target.innerText.toLowerCase());
+    processInput(key) {
+        if (this.processingBlock) {
+            return;
+        }
+
+        this.keyboard.disableKey(key);
+
+        if (this.isMatch(key)) {
+            this.cycleCorrect(key);
+        } else {
+            this.cycleWrong();
         }
     }
 
-    processInput(key) {
-        console.log(key);
+    isMatch(key) {
+        return this.answerSet.has(key);
+    }
+
+    isWin() {
+        return this.correctGuesses === this.answerSet.size;
+    }
+
+    isLose() {
+        return this.lives <= 0;
+    }
+
+    cycleCorrect(key) {
+        this.correctGuesses++;
+        this.printer.setCodeWord(this.unmaskLetter(key));
+
+        if (this.isWin()) {
+            this.gallows.gameWin();
+            this.processingBlock = true;
+        }
+    }
+
+    cycleWrong() {
+        this.lives--;
+        this.gallows.cycleState();
+        this.printer.cycleState();
+
+        if (this.isLose()) {
+            this.processingBlock = true;
+        }
+    }
+
+    unmaskLetter(letter) {
+        let result = this.answerMasked.split('');
+
+        for (let i = 0; i < this.answerPlain.length; i++) {
+            const answerChar = this.answerPlain[i];
+
+            if (answerChar === letter) {
+                result[i] = answerChar;
+            }
+        }
+
+        this.answerMasked = result.join('');
+
+        return this.answerMasked;
     }
 
     resetGame() {
+        this.lives = 6;
+        this.correctGuesses = 0;
+        this.processingBlock = false;
+
+        // Get quiz, Set answer
         const randomIndex = Math.floor(Math.random() * (this.hangmanWords.length - 1));
         const randomQuiz = this.hangmanWords[randomIndex];
 
-        // Set answer
-        this.answerPlain = randomQuiz.lang;
-        this.answerSet = new Set(randomQuiz.lang);
+        this.answerSet = new Set(randomQuiz.keyword);
+        this.answerPlain = randomQuiz.keyword;
+        this.answerMasked = '_'.repeat(randomQuiz.keyword.length);
 
         // Gallows
         this.gallows.gameReset();
@@ -111,9 +163,10 @@ class Hangman {
         // Printer
         this.printer.cycleReset();
         this.printer.setHint(randomQuiz.hint);
-        this.printer.setCodeWord('_'.repeat(randomQuiz.lang.length));
+        this.printer.setCodeWord(this.answerMasked);
 
         // Keyboard
+        this.keyboard.reset();
     }
 }
 
@@ -265,20 +318,22 @@ class Printer {
 
 class Keyboard {
     constructor(container, callback) {
-        this.keys = "abcdefghijklmnopqrstuvwxyz";
+        this.gameCallback = callback;
+        this.keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        this.availableInputLettersSet = new Set(this.keys);
 
-        this.init(container, callback);
+        this.init(container);
     }
 
-    init(container, callback) {
+    init(container) {
         const keyboardContainer = document.createElement("section");
         keyboardContainer.classList.add("keyboard-container");
 
         container.appendChild(keyboardContainer);
-        this.generateButtonsAndAddEventListeners(keyboardContainer, this.keys, callback);
+        this.generateButtonsAndAddEventListeners(keyboardContainer, this.keys);
     }
 
-    generateButtonsAndAddEventListeners(container, keys, callback) {
+    generateButtonsAndAddEventListeners(container, keys) {
         // Create 3 rows for the keyboard
         const row = document.createElement("div");
         row.classList.add("keys-row");
@@ -296,7 +351,7 @@ class Keyboard {
             key.id = `${keys[i]}-key`;
             key.classList.add("key-button");
             key.innerText = keys[i];
-            key.addEventListener("click", callback);
+            key.addEventListener("click", this.handleKeyboardEvents.bind(this));
 
             const rowIndex = Math.trunc(i / 9);
 
@@ -315,13 +370,45 @@ class Keyboard {
         container.appendChild(row3);
 
         // Physical keyboard event listener
-        document.addEventListener("keyup", callback);
+        document.addEventListener("keyup", this.handleKeyboardEvents.bind(this));
+    }
+
+    handleKeyboardEvents(event) {
+        if (event.type === "keyup") {
+            if (this.availableInputLettersSet.has(event.key)) {
+                this.gameCallback(event.key);
+            }
+        } else if (event.type === "click") {
+            this.gameCallback(event.target.innerText.toLowerCase());
+        }
+    }
+
+    disableKey(key) {
+        const keyElement = document.getElementById(`${key}-key`);
+        keyElement.disabled = true;
+        keyElement.classList.add("key-button-disabled");
+
+        this.availableInputLettersSet.delete(key);
+    }
+
+    reset() {
+        this.availableInputLettersSet = new Set(this.keys);
+
+        const buttons = document.querySelectorAll(".key-button:disabled");
+        
+        for (let i = 0; i < buttons.length; i++) {
+            const button = buttons[i];
+
+            button.removeAttribute("disabled");
+            button.classList.remove("key-button-disabled");
+        }
     }
 }
 
 // On load
 (() => {
     const hangman = new Hangman();
+    hangman.start();
 
     console.info("Welcome to the Hangman World!");
     console.info("Make yourself comfortable while you're here. ♥");
