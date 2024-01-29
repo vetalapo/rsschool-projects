@@ -66,6 +66,7 @@ class Hangman {
         // Gallows container
         const gallowsContainer = document.createElement("div");
         gallowsContainer.id = "gallows-container";
+        gallowsContainer.classList.add("no-user-interaction");
         this.gallows = new Gallows(this.gameTitle, gallowsContainer);
 
         // Quiz container
@@ -125,9 +126,9 @@ class Hangman {
             this.gallows.gameWin();
 
             const headerText = "You have won!";
-            const answerHTML = `<span class="answer-modal-highlight">${this.answerPlain}</span><br>was indeed the answer.`;
+            const answerComment = "was indeed the answer";
 
-            this.modal.show(headerText, answerHTML, this.isFlawless());
+            this.modal.show(headerText, this.answerPlain, answerComment, this.isFlawless());
         }
     }
 
@@ -140,9 +141,9 @@ class Hangman {
             this.processingBlock = true;
 
             const headerText = "All hope is lost...";
-            const answerHTML = `<span class="answer-modal-highlight">${this.answerPlain}</span><br>was the answer.`;
+            const answerComment = "was the answer";
 
-            this.modal.show(headerText, answerHTML, this.isFlawless());
+            this.modal.show(headerText, this.answerPlain, answerComment, this.isFlawless());
         }
     }
 
@@ -267,6 +268,7 @@ class Printer {
         // Code word
         const codeWordContainer = document.createElement("section");
         codeWordContainer.classList.add("code-word-container");
+        codeWordContainer.classList.add("no-user-interaction");
         
         const codeWordElement = document.createElement("p");
         codeWordElement.id = "code-word";
@@ -276,6 +278,7 @@ class Printer {
         // Hint
         const hintContainer = document.createElement("section");
         hintContainer.classList.add("hint-container");
+        hintContainer.classList.add("no-user-interaction");
         const hintElement = document.createElement("p");
         hintElement.id = "hint";
         hintElement.textContent = this.formatHint(this.hint);
@@ -284,6 +287,7 @@ class Printer {
         // Lives
         const livesStatusContainer = document.createElement("section");
         livesStatusContainer.classList.add("lives-status-container");
+        livesStatusContainer.classList.add("no-user-interaction");
         
         const livesElement = document.createElement("p");
         livesElement.textContent = "Incorrect guesses: ";
@@ -441,62 +445,62 @@ class ModalDialog {
         // Header
         const header = document.createElement("h2");
         header.id = "dialog-header";
+        header.classList.add("no-user-interaction");
 
         // Flawless Victory
         const flawlessVictory = document.createElement("p");
         flawlessVictory.id = "dialog-flawless";
         flawlessVictory.innerText = "Flawless Victory";
         flawlessVictory.style.display = "none";
+        flawlessVictory.classList.add("no-user-interaction");
 
         // Answer
-        const answerBlock = document.createElement("p");
-        answerBlock.id = "dialog-answer";
+        const riddleAnswer = document.createElement("p");
+        riddleAnswer.id = "dialog-riddle-answer";
+        riddleAnswer.classList.add("no-user-interaction");
+
+        // Answer commentary
+        const answerCommentary = document.createElement("p");
+        answerCommentary.id = "dialog-answer-commentary";
+        answerCommentary.classList.add("no-user-interaction");
         
         // Button
         const button = document.createElement("button");
+        button.id = "dialog-close-button";
         button.textContent = "Play Again";
         button.addEventListener("click", callback);
 
         // Render
         dialogContainer.appendChild(header);
         dialogContainer.appendChild(flawlessVictory);
-        dialogContainer.appendChild(answerBlock);
+        dialogContainer.appendChild(riddleAnswer);
+        dialogContainer.appendChild(answerCommentary);
         dialogContainer.appendChild(button);
 
         document.body.appendChild(dialogContainer);
     }
 
-    show(displayText, answerHTML, isFlawless = false) {
-        const dialog = document.getElementById("dialog-finale");
+    show(headerText, answerWord, answerComment, isFlawless = false) {
+        document.getElementById("dialog-header").textContent = headerText;
+        document.getElementById("dialog-riddle-answer").textContent = answerWord;
+        document.getElementById("dialog-answer-commentary").textContent = answerComment;
         
-        const header = document.getElementById("dialog-header");
-        header.textContent = displayText;
-
         if (isFlawless) {
-            const flawless = document.getElementById("dialog-flawless");
-            flawless.style.display = "block";
+            document.getElementById("dialog-flawless").style.display = "block";
         }
 
-        const answer = document.getElementById("dialog-answer");
-        answer.innerHTML = answerHTML;
-
-        dialog.showModal();
+        document.getElementById("dialog-finale").showModal();
     }
 
     close() {
-        const dialog = document.getElementById("dialog-finale");
-
-        dialog.close();
-
-        const flawless = document.getElementById("dialog-flawless");
-        flawless.style.display = "none";
+        document.getElementById("dialog-finale").close();
+        document.getElementById("dialog-flawless").style.display = "none";
     }
 }
 
 // On load
 (() => {
-    const hangman = new Hangman();
-    hangman.start();
+    new Hangman().start();
 
     console.info("Welcome to the Hangman World!");
     console.info("Make yourself comfortable while you're here. ♥");

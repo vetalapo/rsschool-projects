@@ -10,6 +10,11 @@
     box-sizing: border-box;
 }
 
+.no-user-interaction {
+    pointer-events: none;
+    user-select: none;
+}
+
 html {
     display: grid;
     width: 100%;
@@ -27,14 +32,19 @@ body {
     border-radius: 25px;
 }
 
+p {
+    margin: 0;
+}
+
 .hangman-game-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.85fr 1fr;
     grid-template-rows: 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     width: 100%;
     overflow: hidden;
+    font-family: cursive;
 }
 
 #gallows-container {
@@ -43,11 +53,8 @@ body {
     gap: 30px;
     justify-content: center;
     align-items: center;
-    background-color: lightcoral;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
-    pointer-events: none;
-    user-select: none;
 }
 
 #quiz-container {
@@ -55,11 +62,16 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: green;
+    text-align: center;
+    gap: 60px;
     font-size: 40px;
     font-weight: 500;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
+}
+
+.lives-status-container {
+    margin-bottom: 75px;
 }
 
 .game-title {
@@ -69,13 +81,14 @@ body {
 }
 
 #game-score {
-    color: maroon;
+    color: crimson;
     font-weight: 600;
 }
 
 #code-word {
     font-size: 65px;
     letter-spacing: 30px;
+    text-transform: uppercase;
 }
 
 .keyboard-container {
@@ -91,31 +104,36 @@ body {
 }
 
 .key-button {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     text-transform: uppercase;
     background-color: var(--background-body);
     border-radius: 20px;
+    font-weight: bold;
+    font-size: 25px;
+    color: aliceblue;
 }
 
 .key-button-disabled {
-    background-color: teal;
+    background-color: darkgray;
     border: none;
 }
 
-.answer-modal-highlight {
-    text-transform: capitalize;
-    font-weight: bold;
-}
-
-/*   Open state of the dialog  */
+/* Open state of the dialog  */
 dialog[open] {
     opacity: 1;
     transform: scaleY(1);
 }
   
-/*   Closed state of the dialog   */
+/* Closed state of the dialog   */
 dialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: cursive;
+    border-color: tomato;
+    padding: 35px;
+    border-radius: 40px;
     opacity: 0;
     transform: scaleY(0);
     transition:
@@ -137,13 +155,41 @@ dialog[open]::backdrop {
     background-color: rgb(0 0 0 / 75%);
 }
 
-@starting-style {
-    dialog[open] {
-        opacity: 0;
-        transform: scaleY(0);
-    }
+#dialog-header {
+    font-size: 60px;
+}
 
-    dialog[open]::backdrop {
-        background-color: rgb(0 0 0 / 0%);
-    }
+#dialog-flawless {
+    text-transform: capitalize;
+    font-weight: bold;
+    font-style: italic;
+    margin-top: -15px;
+    margin-bottom: 10px;
+    color: brown;
+}
+
+#dialog-riddle-answer {
+    text-transform: capitalize;
+    font-weight: bold;
+    margin: 10px;
+    font-size: 40px;
+    color: crimson;
+}
+
+#dialog-answer-commentary {
+    font-size: 25px;
+    margin-bottom: 50px;
+}
+
+#dialog-close-button {
+    width: 100%;
+    padding: 20px 0;
+    text-transform: uppercase;
+    background-color: var(--background-body);
+    border-radius: 20px;
+    font-weight: bold;
+    color: aliceblue;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
