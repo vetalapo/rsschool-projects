@@ -102,3 +102,48 @@ body {
     background-color: teal;
     border: none;
 }
+
+.answer-modal-highlight {
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+/*   Open state of the dialog  */
+dialog[open] {
+    opacity: 1;
+    transform: scaleY(1);
+}
+  
+/*   Closed state of the dialog   */
+dialog {
+    opacity: 0;
+    transform: scaleY(0);
+    transition:
+      opacity 100ms ease-out,
+      transform 100ms ease-out,
+      overlay 100ms ease-out allow-discrete,
+      display 100ms ease-out allow-discrete;
+}
+  
+dialog::backdrop {
+    background-color: rgb(0 0 0 / 0%);
+    transition:
+        display 100ms allow-discrete,
+        overlay 100ms allow-discrete,
+        background-color 100ms;
+}
+  
+dialog[open]::backdrop {
+    background-color: rgb(0 0 0 / 75%);
+}
+
+@starting-style {
+    dialog[open] {
+        opacity: 0;
+        transform: scaleY(0);
+    }
+
+    dialog[open]::backdrop {
+        background-color: rgb(0 0 0 / 0%);
+    }
+}

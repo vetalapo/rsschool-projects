@@ -8,6 +8,7 @@ class Hangman {
         this.gallows = null;
         this.printer = null;
         this.keyboard = null;
+        this.modal = null;
 
         // Game vars
         this.lives = 6;
@@ -80,6 +81,9 @@ class Hangman {
 
         // Rendering containers to the document
         document.body.appendChild(container);
+
+        // Modal
+        this.modal = new ModalDialog(this.onModalClose.bind(this));
     }
 
     processInput(key) {
@@ -108,13 +112,22 @@ class Hangman {
         return this.lives <= 0;
     }
 
+    isFlawless() {
+        return this.lives === 6;
+    }
+
     cycleCorrect(key) {
         this.correctGuesses++;
         this.printer.setCodeWord(this.unmaskLetter(key));
 
         if (this.isWin()) {
-            this.gallows.gameWin();
             this.processingBlock = true;
+            this.gallows.gameWin();
+
+            const headerText = "You have won!";
+            const answerHTML = `<span class="answer-modal-highlight">${this.answerPlain}</span><br>was indeed the answer.`;
+
+            this.modal.show(headerText, answerHTML, this.isFlawless());
         }
     }
 
@@ -125,6 +138,11 @@ class Hangman {
 
         if (this.isLose()) {
             this.processingBlock = true;
+
+            const headerText = "All hope is lost...";
+            const answerHTML = `<span class="answer-modal-highlight">${this.answerPlain}</span><br>was the answer.`;
+
+            this.modal.show(headerText, answerHTML, this.isFlawless());
         }
     }
 
@@ -142,6 +160,11 @@ class Hangman {
         this.answerMasked = result.join('');
 
         return this.answerMasked;
+    }
+
+    onModalClose() {
+        this.resetGame();
+        this.modal.close();
     }
 
     resetGame() {
@@ -402,6 +425,71 @@ class Keyboard {
             button.removeAttribute("disabled");
             button.classList.remove("key-button-disabled");
         }
+    }
+}
+
+class ModalDialog {
+    constructor(callback) {
+        this.init(callback);
+    }
+
+    init(callback) {
+        // Container
+        const dialogContainer = document.createElement("dialog");
+        dialogContainer.id = "dialog-finale";
+
+        // Header
+        const header = document.createElement("h2");
+        header.id = "dialog-header";
+
+        // Flawless Victory
+        const flawlessVictory = document.createElement("p");
+        flawlessVictory.id = "dialog-flawless";
+        flawlessVictory.innerText = "Flawless Victory";
+        flawlessVictory.style.display = "none";
+
+        // Answer
+        const answerBlock = document.createElement("p");
+        answerBlock.id = "dialog-answer";
+        
+        // Button
+        const button = document.createElement("button");
+        button.textContent = "Play Again";
+        button.addEventListener("click", callback);
+
+        // Render
+        dialogContainer.appendChild(header);
+        dialogContainer.appendChild(flawlessVictory);
+        dialogContainer.appendChild(answerBlock);
+        dialogContainer.appendChild(button);
+
+        document.body.appendChild(dialogContainer);
+    }
+
+    show(displayText, answerHTML, isFlawless = false) {
+        const dialog = document.getElementById("dialog-finale");
+        
+        const header = document.getElementById("dialog-header");
+        header.textContent = displayText;
+
+        if (isFlawless) {
+            const flawless = document.getElementById("dialog-flawless");
+            flawless.style.display = "block";
+        }
+
+        const answer = document.getElementById("dialog-answer");
+        answer.innerHTML = answerHTML;
+
+        dialog.showModal();
+    }
+
+    close() {
+        const dialog = document.getElementById("dialog-finale");
+
+        dialog.close();
+
+        const flawless = document.getElementById("dialog-flawless");
+        flawless.style.display = "none";
     }
 }
 
