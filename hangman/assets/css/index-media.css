@@ -1,0 +1,109 @@
+@media only screen and (max-width: 1540px) {
+    #hangman-state {
+        width: 60%;
+        height: auto;
+    }
+
+    .keyboard-container {
+        gap: 12px;
+    }
+    
+    .keys-row {
+        gap: 12px;
+    }
+    
+    .key-button {
+        width: 65px;
+        height: 65px;
+    }
+}
+
+@media only screen and (max-width: 1350px) {
+    #gallows-container {
+        flex-direction: column-reverse;
+    }
+
+    .game-title {
+        font-size: 60px;
+    }
+
+    #quiz-container {
+        gap: 40px;
+    }
+
+    .key-button {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .hangman-game-container {
+        grid-template-columns: 1fr;
+    }
+
+    #gallows-container {
+        gap: 0;
+    }
+
+    .game-title {
+        font-size: 45px;
+        margin: 0;
+    }
+
+    #hangman-state {
+        width: 40%;
+    }
+
+    #quiz-container {
+        gap: 15px;
+        font-size: 25px;
+        padding-bottom: 40px;
+    }
+
+    .lives-status-container {
+        margin-bottom: 15px;
+    }
+
+    .keyboard-container {
+        gap: 10px;
+    }
+
+    #code-word {
+        font-size: 50px;
+    }
+    
+    .keys-row {
+        gap: 10px;
+    }
+
+    dialog {
+        padding: 20px;
+    }
+
+    #dialog-header {
+        font-size: 45px;
+    }
+    
+    #dialog-flawless {
+        margin-top: -30px;
+        margin-bottom: 7px;
+    }
+    
+    #dialog-riddle-answer {
+        font-size: 35px;
+    }
+    
+    #dialog-answer-commentary {
+        font-size: 20px;
+        margin-bottom: 25px;
+    }
+    
+    #dialog-close-button {
+        padding: 15px 0;
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+}
